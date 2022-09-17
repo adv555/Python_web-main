@@ -1,29 +1,9 @@
-import psycopg2
-from contextlib import contextmanager
 from faker import Faker
 import random
+from connection import create_connection
+from requests import get_5_students_with_max_average_mark, get_student_with_max_average_mark
 
 fake = Faker()
-
-
-@contextmanager
-def create_connection():
-    conn = None
-    try:
-        conn = psycopg2.connect(
-            host="localhost",
-            database="university",
-            user="postgres",
-            password="postgres",
-        )
-        print("Connection established")
-        yield conn
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        print(e)
-    finally:
-        conn.close()
 
 
 def create_table():
@@ -134,3 +114,5 @@ if __name__ == '__main__':
     # create_table()
     print('Table created')
     # insert_data()
+    # print(get_5_students_with_max_average_mark())
+    print(get_student_with_max_average_mark(subject_id=2))

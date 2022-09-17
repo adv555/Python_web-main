@@ -152,3 +152,4 @@ cython_debug/
 .idea/
 data.bin
 data.json
+Homework_10/config.ini
