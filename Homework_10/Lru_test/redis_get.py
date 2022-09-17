@@ -1,6 +1,6 @@
 import time
 
-from redis_client import client
+from Lru_test.redis_client import client
 
 
 def set_value():

@@ -1,4 +1,4 @@
-from create_data import generate_fake_contacts, add_phone, add_email, get_contact_by_id, add_contact, delete_contact, \
+from repository import generate_fake_contacts, add_phone, add_email, get_contact_by_id, add_contact, delete_contact, \
     show_contact
 from styles import *
 import timeit

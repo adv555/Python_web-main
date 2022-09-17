@@ -4,7 +4,7 @@ from typing import List, Iterable
 
 from faker import Faker
 
-from redis_client import client
+from Lru_test.redis_client import client
 
 fake = Faker()
 

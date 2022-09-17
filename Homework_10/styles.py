@@ -1,4 +1,5 @@
 from termcolor2 import colored
+from tabulate import tabulate
 
 
 class bcolors:
@@ -32,3 +33,11 @@ def option(text):
 
 def message(text):
     return print(colored(text, color='green'))
+
+
+def print_data(data):
+    table_data = [
+        ['First name', 'Last name', 'Email', 'Phone'],
+        [data['first_name'], data['last_name'], data['email'], data['phone']]
+    ]
+    print(tabulate(table_data, headers='firstrow', tablefmt='grid'))
