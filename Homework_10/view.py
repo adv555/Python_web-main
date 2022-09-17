@@ -1,5 +1,7 @@
-from create_data import generate_fake_contacts, add_phone, add_email, get_contact_by_id, add_contact, delete_contact
+from create_data import generate_fake_contacts, add_phone, add_email, get_contact_by_id, add_contact, delete_contact, \
+    show_contact
 from styles import *
+import timeit
 
 
 def menu():
@@ -32,7 +34,9 @@ def menu():
             add_email(contact_id, email)
         elif choice == '4':
             contact_id = input('Enter contact id: ').strip()
-            get_contact_by_id(contact_id)
+            start_time = timeit.default_timer()
+            show_contact(contact_id)
+            print('Time: ', timeit.default_timer() - start_time)
         elif choice == '5':
             contact_id = input('Enter contact id: ').strip()
             delete_contact(contact_id)
