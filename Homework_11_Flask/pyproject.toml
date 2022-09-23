@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "homework-11-flask"
+version = "0.1.0"
+description = ""
+authors = ["Olena Boldysheva <adv55577@gmail.com>"]
+readme = "README.md"
+packages = [{include = "homework_11_flask"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.2.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
