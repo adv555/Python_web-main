@@ -1,36 +1,33 @@
 import os
-
-from flask import Flask
-
+from flask import Flask, redirect, url_for
 from src.routes import auth, contacts
+from config import config
+from flask_migrate import Migrate
 
 
-def create_app(test_config=None):
+migrate = Migrate()
+
+
+def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    # app.config.from_mapping()
-    directory_path = os.getcwd()
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile(os.path.join(directory_path, 'config.py'), silent=True)  # DO not do this on prod
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
-
-    # ensure the instance folder exists
+    app.config.from_object(config.Config)
+    print(app.config['SQLALCHEMY_DATABASE_URI'])
+    from src.models import db
+    db.init_app(app)
+    migrate.init_app(app, db)
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
 
-    # db.init_app(app)
-    app.register_blueprint(auth.auth_bp)
-    app.register_blueprint(contacts.contact_bp)
+    app.register_blueprint(auth.auth)
+    app.register_blueprint(contacts.contact)
     app.add_url_rule('/', endpoint='index')
 
     @app.route('/')
     def index():
-        return 'Hello, World!'
+        return redirect(url_for('auth.login'))
 
     return app
 
