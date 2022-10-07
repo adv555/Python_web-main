@@ -1,4 +1,4 @@
-from src.models import db, User
+from personal_app.models import db, User
 import bcrypt
 
 
@@ -19,6 +19,7 @@ def login(email, password):
 
 
 def set_token(user, token):
+    print('SET TOKEN:', user, token)
     user.token_cookie = token
     db.session.commit()
 

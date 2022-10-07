@@ -1,6 +1,6 @@
 import os
 from flask import Flask, redirect, url_for
-from src.routes import auth, contacts
+from personal_app.routes import auth, contacts
 from config import config
 from flask_migrate import Migrate
 
@@ -12,8 +12,7 @@ def create_app():
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(config.Config)
-    print(app.config['SQLALCHEMY_DATABASE_URI'])
-    from src.models import db
+    from personal_app.models import db
     db.init_app(app)
     migrate.init_app(app, db)
     try:
@@ -27,7 +26,7 @@ def create_app():
 
     @app.route('/')
     def index():
-        return redirect(url_for('auth.login'))
+        return redirect(url_for('contacts.contacts'))
 
     return app
 
