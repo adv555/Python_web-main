@@ -4,13 +4,17 @@
         <h3>Register</h3>
 
         <label for="username">Username</label>
-        <input type="text" placeholder="Email or Phone" id="username">
+        <input type="text" placeholder="Email" id="username">
 
         <label for="password">Password</label>
         <input type="password" placeholder="Password" id="password">
 
         <button>Register</button>
 
-            <div style="margin-top: 10px; text-decoration: underline coral" >Already have an account?</div>
+            <div style="margin-top: 10px" >
+                <a href="{% url  'user:login' %}">
+                    Already have an account?
+                </a>
+            </div>
     </form>
 {% endblock %}

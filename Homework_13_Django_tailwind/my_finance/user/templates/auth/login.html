@@ -4,13 +4,17 @@
         <h3>Login Here</h3>
 
         <label for="username">Username</label>
-        <input type="text" placeholder="Email or Phone" id="username">
+        <input type="text" placeholder="Email" id="username">
 
         <label for="password">Password</label>
         <input type="password" placeholder="Password" id="password">
 
         <button>Log In</button>
 
-            <div style="margin-top: 10px; text-decoration: underline coral" >  Don't have an account yet?</div>
+            <div style="margin-top: 10px" >
+                <a style="text-decoration: underline coral" href="{% url  'user:register' %}">
+                    Don't have an account yet ?
+                </a>
+            </div>
     </form>
 {% endblock %}
