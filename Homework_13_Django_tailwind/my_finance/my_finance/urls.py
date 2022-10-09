@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from money_manager.views import index # NOQA
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('user/', include('user.urls')),
-    path('transactions/', include('money_manager.urls')),
+    path('', index, name='index'),
+    path('auth/', include('user.urls', namespace='auth'), name='auth'),
+    path('transactions/', include('money_manager.urls', namespace='transactions'), name='transactions'),
 ]

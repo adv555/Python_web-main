@@ -10,10 +10,10 @@ class Income(models.Model):
     description = models.TextField()
     created = models.DateTimeField(default=now)
     category = models.ForeignKey(
-        'Category', null=True, blank=True, on_delete=models.SET_NULL)
+        'Category', null=True, blank=True, on_delete=models.SET_NULL, related_name='income')
 
     def __str__(self):
-        return f'{self.id}, {self.amount}, {self.description}, {self.created}'  # NOQA
+        return f'{self.id}, {self.amount}, {self.description}, {self.created}, {self.category}'  # NOQA
 
 
 class Expense(models.Model):
@@ -21,10 +21,10 @@ class Expense(models.Model):
     description = models.TextField()
     created = models.DateTimeField(default=now)
     category = models.ForeignKey(
-        'Category', null=True, blank=True, on_delete=models.SET_NULL)
+        'Category', null=True, blank=True, on_delete=models.SET_NULL, related_name='expense')
 
     def __str__(self):
-        return f'{self.id}, {self.amount}, {self.description}, {self.created}'  # NOQA
+        return f'{self.id}, {self.amount}, {self.description}, {self.created} {self.category}'  # NOQA
 
 
 class Category(models.Model):
