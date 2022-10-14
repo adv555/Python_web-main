@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tailwind',
-    'theme',
+    'theme.apps.ThemeConfig',
     'django_browser_reload',
     'money_manager.apps.MoneyManagerConfig',
     'user.apps.UserConfig',
