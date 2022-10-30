@@ -32,7 +32,9 @@ class NewsAggregatorPipeline:
                 db.commit()
 
         db.close()
+        print(item)
         return item
+
 
         # if not db.query(News).filter(News.title == item['title']).first():
         #     news = News(**item)
