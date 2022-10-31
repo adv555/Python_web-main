@@ -7,6 +7,11 @@ import scrapy
 
 
 class NewsAggregatorItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    content = scrapy.Field()
+    date = scrapy.Field()
+    image = scrapy.Field()
+    # authors = scrapy.Field()
+
+class NewsAuthorItem(scrapy.Item):
+    authors = scrapy.Field()

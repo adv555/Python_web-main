@@ -9,8 +9,8 @@ class NewsSpider(scrapy.Spider):
     name = 'news'
     allowed_domains = ['forklog.com']
     start_urls = ['https://forklog.com/news']
-    custom_settings = {'FEED_FORMAT': 'csv', 'FEED_URI': 'news.csv'}
 
+    # custom_settings = {'FEED_FORMAT': 'csv', 'FEED_URI': 'news.csv'}
 
     def parse(self, response):
         result = {}
@@ -44,6 +44,3 @@ class NewsSpider(scrapy.Spider):
         #         body=f'page={page}',
         #         headers={'Content-Type': 'application/x-www-form-urlencoded'}
         #     )
-
-
-

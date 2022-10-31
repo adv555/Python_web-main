@@ -6,47 +6,56 @@
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
-from .db_config import session
-from .models import News, Author
+from sqlalchemy.orm import sessionmaker
+from .db_config import engine
+from .models import News, Author, Base
 
 
 class NewsAggregatorPipeline:
+
+    def __init__(self):
+        Base.metadata.create_all(engine)
+        session = sessionmaker(bind=engine)
+        self.session = session()
+
     def process_item(self, item, spider):
 
-        db = session()
-        if not db.query(News).filter(News.title == item['title']).first():
-            news = News(
-                title=item['title'],
-                content=item['content'],
-                date=item['date'],
-                img_url=item['image']
-            )
-            db.add(news)
-            db.commit()
-            db.refresh(news)
-            for author in item['authors']:
-                if not db.query(Author).filter(Author.name == author).first():
-                    db.add(Author(name=author))
-                    db.commit()
-                db.query(Author).filter(Author.name == author).first().news.append(news)
+        adapter = ItemAdapter(item)
+
+        with self.session as db:
+
+            # Check if the news is already in the database
+            if not db.query(News).filter_by(title=adapter['title']).first():
+
+                news = News(
+                    img_url=adapter['image'],
+                    title=adapter['title'],
+                    content=adapter['content'],
+                    date=adapter['date'],
+                )
+
+                db.add(news)
                 db.commit()
+                print('News added to the database')
 
-        db.close()
-        print(item)
+                # Check if the author is already in the database
+                for author_name in adapter['authors']:
+                    author_name = author_name.strip()
+                    author = db.query(Author).filter_by(name=author_name).first()
+
+                    if not author:
+                        new_author = Author(name=author_name)
+                        db.add(new_author)
+                        db.commit()
+                        db.query(News).filter_by(title=adapter['title']).first().author.append(new_author)
+                        # news.author.append(new_author)
+                        print('Author added to the database')
+                    else:
+                        db.query(News).filter_by(title=adapter['title']).first().author.append(author)
+                        # news.author.append(author)
+                        print('Author already exists')
+
+
+
+        print('NewsItem added to the database')
         return item
-
-
-        # if not db.query(News).filter(News.title == item['title']).first():
-        #     news = News(**item)
-        #     db.add(news)
-        #     db.commit()
-        #     db.refresh(news)
-        #     for author in item['author']:
-        #         if not db.query(Author).filter(Author.name == author).first():
-        #             db.add(Author(name=author))
-        #             db.commit()
-        #             db.refresh(news)
-        #         author = db.query(Author).filter(Author.name == author).first()
-        #         news.author.append(author)
-        #         db.commit()
-        #         db.refresh(news)
