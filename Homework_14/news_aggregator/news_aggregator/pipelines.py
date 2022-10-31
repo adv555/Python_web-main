@@ -34,10 +34,6 @@ class NewsAggregatorPipeline:
                     date=adapter['date'],
                 )
 
-                db.add(news)
-                db.commit()
-                print('News added to the database')
-
                 # Check if the author is already in the database
                 for author_name in adapter['authors']:
                     author_name = author_name.strip()
@@ -45,17 +41,17 @@ class NewsAggregatorPipeline:
 
                     if not author:
                         new_author = Author(name=author_name)
+                        news.author.append(new_author)
                         db.add(new_author)
                         db.commit()
-                        db.query(News).filter_by(title=adapter['title']).first().author.append(new_author)
-                        # news.author.append(new_author)
                         print('Author added to the database')
                     else:
-                        db.query(News).filter_by(title=adapter['title']).first().author.append(author)
-                        # news.author.append(author)
+                        news.author.append(author)
                         print('Author already exists')
 
-
+                db.add(news)
+                db.commit()
+                print('News added to the database')
 
         print('NewsItem added to the database')
         return item
